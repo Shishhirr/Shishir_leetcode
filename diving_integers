@@ -1,27 +1,30 @@
-import java.util.*;
-
-public class Solution {
+class Solution {
     public int divide(int dividend, int divisor) {
-        if (dividend == Integer.MIN_VALUE && divisor == -1) {
-            return Integer.MAX_VALUE;
+
+        if (dividend == 0) {
+            return 0;
         }
-        boolean isNegative = (dividend < 0) ^ (divisor < 0);
+
+        boolean negative = (dividend < 0) != (divisor < 0);
+
         long a = Math.abs((long) dividend);
         long b = Math.abs((long) divisor);
 
-        int quotient = 0;
-        while (a >= b) {
-            long tempDivisor = b;
-            long multiple = 1;
-            while (a >= (tempDivisor << 1)) {
-                tempDivisor <<= 1;
-                multiple <<= 1;
-            }
+        int count = 0;
 
-            a -= tempDivisor;
-            quotient += multiple;
+        while (a >= b) {
+            a = a - b;
+            count++;
         }
 
-        return isNegative ? (int)-quotient : (int)quotient;
+        if (negative) {
+            count = -count;
+        }
+
+        if (count > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        }
+
+        return count;
     }
 }
